@@ -2,13 +2,19 @@
 {
     public class Menu
     {
-        public char Display()
+        public bool WasQuitKeyPressed 
+            => PressedKey.Key == ConsoleKey.Q;
+
+        public bool WasNewGameKeyPressed 
+            => PressedKey.Key == ConsoleKey.N;
+
+        private ConsoleKeyInfo PressedKey { get; set; }
+
+        public void Display()
         {
             Title();
             SubTitle();
-            var option = ReadOption();
-
-            return option;
+            ReadOption();
         }
 
         private void Title()
@@ -37,16 +43,14 @@
             Console.WriteLine("Q = Quit");
         }
 
-        private char ReadOption()
+        private void ReadOption()
         {
-            var pressedKey = ReadKey();
-            while (pressedKey.Key != ConsoleKey.N && pressedKey.Key != ConsoleKey.Q)
+            PressedKey = ReadKey();
+            while (PressedKey.Key != ConsoleKey.N && PressedKey.Key != ConsoleKey.Q)
             {
                 Console.Beep();
-                pressedKey = ReadKey();
+                PressedKey = ReadKey();
             }
-
-            return pressedKey.KeyChar;            
         }
 
         private ConsoleKeyInfo ReadKey()

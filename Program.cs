@@ -1,16 +1,14 @@
-﻿using Snake ;
+﻿using Snake;
 
-Menu menu = new Menu();
+var menu = new Menu();
+menu.Display();
 
-var option = menu.Display();
-
-while (!option.ToString().Equals("Q", StringComparison.InvariantCultureIgnoreCase))
+while (!menu.WasQuitKeyPressed)
 {
-    if (option.ToString().Equals("N", StringComparison.InvariantCultureIgnoreCase))
+    if (menu.WasNewGameKeyPressed)
     {
-        Game game = new Game();
+        var game = new Game();
         game.Run();
     }
-
-    option = menu.Display();
+    menu.Display();
 }

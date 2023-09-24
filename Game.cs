@@ -18,12 +18,12 @@
         {
             InitializeGame();
 
-            Board board = new Board();
+            var board = new Board();
             board.Draw();
 
-            Snake snake = new Snake();
+            var snake = new Snake();
 
-            Food food = new Food();
+            var food = new Food();
 
             var colisionDetected = false;
 
