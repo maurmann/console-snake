@@ -11,6 +11,7 @@
         public Game()
         {
             Points = 0;
+            Console.Clear();
         }
 
         public void Run()
@@ -74,6 +75,10 @@
         {
             Message message = new Message();
             message.Write("Game Over!", MessageLocation.Bottom);
+            Console.Beep(440, 400);
+            Console.Beep(540, 400);
+            Console.Beep(640, 400);
+
             Console.CursorVisible = true;
         }
 

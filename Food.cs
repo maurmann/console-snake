@@ -48,6 +48,7 @@
         {
             if (FoodCoordinate.X == x && FoodCoordinate.Y == y)
             {
+                Console.Beep(440,20);
                 FoodEaten = true;
             }
             return FoodEaten;
