@@ -23,15 +23,15 @@
                 return null;
 
             int startX = Board.LeftMargin + 1;
-            int endX = Board.LeftMargin + Board.Width - 1;
+            int endX = Board.LeftMargin + Board.Width;
 
             int startY = Board.TopMargin + 1;
-            int endY = Board.TopMargin + Board.Height - 1;
+            int endY = Board.TopMargin + Board.Height;
 
             Random random = new Random();
             var x = random.Next(startX, endX);
             var y = random.Next(startY, endY);
-            var foodTypeIndex = random.Next(0, FoodTypes.Length - 1);
+            var foodTypeIndex = random.Next(0, FoodTypes.Length);
 
             FoodType = FoodTypes[foodTypeIndex];
 
@@ -54,7 +54,6 @@
         {
             if (FoodCoordinate.X == x && FoodCoordinate.Y == y)
             {
-                Console.Beep(440, 20);
                 FoodEaten = true;
             }
             return FoodEaten;
