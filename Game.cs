@@ -44,7 +44,7 @@
                     if (food.Find(snake.CurrentX, snake.CurrentY))
                     {
                         snake.Eat();
-                        RefreshScore(1);
+                        IncrementScore(food.GetFoodPoints());
                     }
 
                     if (board.DetectHit(snake.CurrentX, snake.CurrentY)
@@ -85,12 +85,18 @@
         private void InitializeGame()
         {
             Console.CursorVisible = false;
-            RefreshScore(0);
+            Points = 0;
+            DisplayScore();
         }
 
-        private void RefreshScore(int increaseValue)
+        private void IncrementScore(int increment)
         {
-            Points += increaseValue;
+            Points += increment;
+            DisplayScore();
+        }
+
+        private void DisplayScore()
+        {
             Message message = new Message();
             message.Write($"[ESC=Exit] - Points: {Points}");
         }

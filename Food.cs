@@ -2,7 +2,11 @@
 {
     public class Food
     {
-        private const char food = '$';
+        private char[] FoodTypes => new char[3] { '$', '#', '@' };
+
+        private int[] FoodPoints => new int[3] { 10, 50, 100 };
+
+        private char FoodType { get; set; }
 
         public Food()
         {
@@ -12,7 +16,6 @@
 
         public bool FoodEaten { get; set; }
         public Coordinate FoodCoordinate { get; set; }
-
 
         public Coordinate? Harvest()
         {
@@ -28,6 +31,9 @@
             Random random = new Random();
             var x = random.Next(startX, endX);
             var y = random.Next(startY, endY);
+            var foodTypeIndex = random.Next(0, FoodTypes.Length - 1);
+
+            FoodType = FoodTypes[foodTypeIndex];
 
             SaveFoodCoordinate(x, y);
 
@@ -41,23 +47,31 @@
         public void Draw()
         {
             Console.SetCursorPosition(FoodCoordinate.X, FoodCoordinate.Y);
-            Console.Write(food);
+            Console.Write(FoodType);
         }
 
         public bool Find(int x, int y)
         {
             if (FoodCoordinate.X == x && FoodCoordinate.Y == y)
             {
-                Console.Beep(440,20);
+                Console.Beep(440, 20);
                 FoodEaten = true;
             }
             return FoodEaten;
+        }
+
+        public int GetFoodPoints()
+        {
+            for (int i = 0; i < FoodTypes.Length; i++)
+                if (FoodTypes[i] == FoodType)
+                    return FoodPoints[i];
+
+            return 0;
         }
 
         private void SaveFoodCoordinate(int x, int y)
         {
             FoodCoordinate = new Coordinate(x, y);
         }
-
     }
 }
