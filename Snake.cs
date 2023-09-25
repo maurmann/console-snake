@@ -5,6 +5,11 @@
         public int CurrentX { get; private set; }
         public int CurrentY { get; private set; }
 
+        public bool MovingRight => Head == Snake.HeadRight;
+        public bool MovingLeft => Head == Snake.HeadLeft;
+        public bool MovingUp => Head == Snake.HeadUp;
+        public bool MovingDown => Head == Snake.HeadDown;
+
         public const char HeadUp = '^';
         public const char HeadDown = 'V';
         public const char HeadLeft = '<';
@@ -24,7 +29,7 @@
             TailNodes = new List<Coordinate>();
         }
 
-        public void Move(ConsoleKey pressedKey)
+        public void Move(ConsoleKey pressedKey,bool runToFood = false)
         {
             MoveTail();
 
@@ -52,6 +57,31 @@
         public void Eat()
         {
             TailNodes.Add(new Coordinate(0, 0));
+        }
+
+        public bool DetectHit(int x, int y)
+        {
+            foreach (var tailNode in TailNodes)
+            {
+                if (tailNode.X == x && tailNode.Y == y)
+                    return true;
+            }
+            return false;
+        }
+
+        public bool DetectConflict(Coordinate? coordinate)
+        {
+            if (coordinate == null)
+                return false;
+
+            foreach (var node in TailNodes)
+                if (node.X == coordinate.X && node.Y == coordinate.Y)
+                    return true;
+
+            if (CurrentX == coordinate.X && CurrentY == coordinate.Y)
+                return true;
+
+            return false;
         }
 
         private void MoveLeft()
@@ -131,31 +161,6 @@
                 Console.SetCursorPosition(node.X, node.Y);
                 Console.Write(Tail);
             }
-        }
-
-        public bool DetectHit(int x, int y)
-        {
-            foreach (var tailNode in TailNodes)
-            {
-                if (tailNode.X == x && tailNode.Y == y)
-                    return true;
-            }
-            return false;
-        }
-
-        public bool DetectConflict(Coordinate? coordinate)
-        {
-            if (coordinate == null)
-                return false;
-
-            foreach (var node in TailNodes)
-                if (node.X == coordinate.X && node.Y == coordinate.Y)
-                    return true;
-
-            if (CurrentX == coordinate.X && CurrentY == coordinate.Y)
-                return true;
-
-            return false;
         }
     }
 }

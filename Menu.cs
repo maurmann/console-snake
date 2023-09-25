@@ -38,9 +38,9 @@
         private void SubTitle()
         {
             Console.SetCursorPosition(2, 8);
-            Console.Write("N = New Game");
+            Console.Write("[N]ew Game");
             Console.SetCursorPosition(2, 9);
-            Console.WriteLine("Q = Quit");
+            Console.WriteLine("[Q]uit");
         }
 
         private void ReadOption()

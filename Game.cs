@@ -2,15 +2,18 @@
 {
     public class Game
     {
-        private const int HorizontalDelayMs = 180;
-        private const int VerticalDelayMs = 240;
+        private const int HorizontalDelayMs = 170;
+        private const int VerticalDelayMs = 230;
         private const ConsoleKey StartKey = ConsoleKey.RightArrow;
 
         private int Points { get; set; }
 
+        private bool RunToFood { get; set; }
+
         public Game()
         {
             Points = 0;
+            RunToFood = false;
             Console.Clear();
         }
 
@@ -39,7 +42,9 @@
                         foodCoordinate = food.Harvest();
 
                     food.Draw();
-                    snake.Move(pressedKey);
+                    snake.Move(pressedKey, RunToFood);
+
+                    CanRun(snake, food);
 
                     if (food.Find(snake.CurrentX, snake.CurrentY))
                     {
@@ -100,5 +105,34 @@
             Message message = new Message();
             message.Write($"[ESC=Exit] - Points: {Points}");
         }
+
+        private void CanRun(Snake snake, Food food)
+        {
+            bool canRun = false;
+
+            if (snake.MovingRight && AreSnakeAndFoodSameLine(snake, food) && snake.CurrentX < food.FoodCoordinate.X)
+                canRun = true;
+            else if (snake.MovingLeft && AreSnakeAndFoodSameLine(snake, food) && snake.CurrentX > food.FoodCoordinate.X)
+                canRun = true;
+            else if (snake.MovingUp && AreSnakeAndFoodSameColumn(snake, food) && snake.CurrentY < food.FoodCoordinate.X)
+                canRun = true;
+            else if (snake.MovingDown && AreSnakeAndFoodSameColumn(snake, food) && snake.CurrentY > food.FoodCoordinate.X)
+                canRun = true;
+
+            Message message = new Message();
+            message.Write(canRun ? "[R]un to food" : new string(' ', 30), MessageLocation.Bottom);
+            RunToFood = canRun;
+        }
+
+        private bool AreSnakeAndFoodSameLine(Snake snake, Food food)
+        {
+            return snake.CurrentY == food.FoodCoordinate.Y;
+        }
+
+        private bool AreSnakeAndFoodSameColumn(Snake snake, Food food)
+        {
+            return snake.CurrentX == food.FoodCoordinate.X;
+        }
+
     }
 }
