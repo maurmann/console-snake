@@ -8,12 +8,10 @@
 
         private int Points { get; set; }
 
-        private bool RunToFood { get; set; }
-
         public Game()
         {
             Points = 0;
-            RunToFood = false;
+
             Console.Clear();
         }
 
@@ -42,9 +40,8 @@
                         foodCoordinate = food.Harvest();
 
                     food.Draw();
-                    snake.Move(pressedKey, RunToFood);
-
-                    CanRun(snake, food);
+                    CanSnakeRunToFood(snake, food);
+                    snake.Move(pressedKey, CanSnakeRunToFood(snake,food));
 
                     if (food.Find(snake.CurrentX, snake.CurrentY))
                     {
@@ -106,22 +103,23 @@
             message.Write($"[ESC=Exit] - Points: {Points}");
         }
 
-        private void CanRun(Snake snake, Food food)
+        private Coordinate? CanSnakeRunToFood(Snake snake, Food food)
         {
-            bool canRun = false;
+            bool canRunToFood = false;
 
             if (snake.MovingRight && AreSnakeAndFoodSameLine(snake, food) && snake.CurrentX < food.FoodCoordinate.X)
-                canRun = true;
+                canRunToFood = true;
             else if (snake.MovingLeft && AreSnakeAndFoodSameLine(snake, food) && snake.CurrentX > food.FoodCoordinate.X)
-                canRun = true;
+                canRunToFood = true;
             else if (snake.MovingUp && AreSnakeAndFoodSameColumn(snake, food) && snake.CurrentY < food.FoodCoordinate.X)
-                canRun = true;
+                canRunToFood = true;
             else if (snake.MovingDown && AreSnakeAndFoodSameColumn(snake, food) && snake.CurrentY > food.FoodCoordinate.X)
-                canRun = true;
+                canRunToFood = true;
 
             Message message = new Message();
-            message.Write(canRun ? "[R]un to food" : new string(' ', 30), MessageLocation.Bottom);
-            RunToFood = canRun;
+            message.Write(canRunToFood ? "[R]un to food" : new string(' ', 30), MessageLocation.Bottom);
+
+            return canRunToFood ? food.FoodCoordinate : null;
         }
 
         private bool AreSnakeAndFoodSameLine(Snake snake, Food food)
@@ -133,6 +131,5 @@
         {
             return snake.CurrentX == food.FoodCoordinate.X;
         }
-
     }
 }

@@ -29,7 +29,7 @@
             TailNodes = new List<Coordinate>();
         }
 
-        public void Move(ConsoleKey pressedKey,bool runToFood = false)
+        public void Move(ConsoleKey pressedKey, Coordinate? foodCoordinate = null)
         {
             MoveTail();
 
