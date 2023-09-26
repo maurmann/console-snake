@@ -4,12 +4,25 @@
     {
         private const int HorizontalDelayMs = 170;
         private const int VerticalDelayMs = 230;
+        private const int HorizontalRunningDelayMs = 10;
+        private const int VerticalRunningDelayMs = 20;
+
         private const ConsoleKey StartKey = ConsoleKey.RightArrow;
 
         private int Points { get; set; }
 
+        private readonly Command command;
+        private readonly Board board;
+        private readonly Snake snake;
+        private readonly Food food;
+
         public Game()
         {
+            command = new Command();
+            board = new Board();
+            snake = new Snake();
+            food = new Food();
+
             Points = 0;
 
             Console.Clear();
@@ -19,12 +32,7 @@
         {
             InitializeGame();
 
-            var board = new Board();
             board.Draw();
-
-            var snake = new Snake();
-
-            var food = new Food();
 
             var colisionDetected = false;
 
@@ -33,15 +41,21 @@
             {
                 while (!Console.KeyAvailable)
                 {
-                    Thread.Sleep(GetDelay(snake));
+                    var canRun = CanRunToFood(snake, food);
+
+                    command.DisplayCommands(canRun);
+
+                    var delay = SetDelay(snake, canRun, pressedKey);
+
+                    Thread.Sleep(delay);
 
                     var foodCoordinate = food.Harvest();
                     while (snake.DetectConflict(foodCoordinate))
                         foodCoordinate = food.Harvest();
 
                     food.Draw();
-                    CanSnakeRunToFood(snake, food);
-                    snake.Move(pressedKey, CanSnakeRunToFood(snake,food));
+
+                    snake.Move(pressedKey);
 
                     if (food.Find(snake.CurrentX, snake.CurrentY))
                     {
@@ -65,12 +79,20 @@
             GameOver();
         }
 
-        private int GetDelay(Snake snake)
+        private int SetDelay(Snake snake, bool canRun, ConsoleKey pressedKey)
+        {
+            if (canRun && pressedKey == ConsoleKey.R)
+                return IsMovingVertical(snake) ? VerticalRunningDelayMs : HorizontalRunningDelayMs;
+
+            return IsMovingVertical(snake) ? VerticalDelayMs : HorizontalDelayMs;
+        }
+
+        private bool IsMovingVertical(Snake snake)
         {
             if (snake.Head == Snake.HeadUp || snake.Head == Snake.HeadDown)
-                return VerticalDelayMs;
+                return true;
 
-            return HorizontalDelayMs;
+            return false;
         }
 
         private void GameOver()
@@ -100,26 +122,21 @@
         private void DisplayScore()
         {
             Message message = new Message();
-            message.Write($"[ESC=Exit] - Points: {Points}");
+            message.Write($"~~~ Console Snake ~~~  Points: {Points}");
         }
 
-        private Coordinate? CanSnakeRunToFood(Snake snake, Food food)
+        private bool CanRunToFood(Snake snake, Food food)
         {
-            bool canRunToFood = false;
-
             if (snake.MovingRight && AreSnakeAndFoodSameLine(snake, food) && snake.CurrentX < food.FoodCoordinate.X)
-                canRunToFood = true;
+                return true;
             else if (snake.MovingLeft && AreSnakeAndFoodSameLine(snake, food) && snake.CurrentX > food.FoodCoordinate.X)
-                canRunToFood = true;
+                return true;
             else if (snake.MovingUp && AreSnakeAndFoodSameColumn(snake, food) && snake.CurrentY < food.FoodCoordinate.X)
-                canRunToFood = true;
+                return true;
             else if (snake.MovingDown && AreSnakeAndFoodSameColumn(snake, food) && snake.CurrentY > food.FoodCoordinate.X)
-                canRunToFood = true;
+                return true;
 
-            Message message = new Message();
-            message.Write(canRunToFood ? "[R]un to food" : new string(' ', 30), MessageLocation.Bottom);
-
-            return canRunToFood ? food.FoodCoordinate : null;
+            return false;
         }
 
         private bool AreSnakeAndFoodSameLine(Snake snake, Food food)

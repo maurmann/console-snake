@@ -21,16 +21,21 @@
 
         public List<Coordinate> TailNodes { get; set; }
 
+        public ConsoleKey LastValidArrowKey { get; set; }
+
         public Snake()
         {
             CurrentX = 4;
             CurrentY = 6;
             Head = HeadRight;
             TailNodes = new List<Coordinate>();
+            LastValidArrowKey = ConsoleKey.RightArrow;
         }
 
-        public void Move(ConsoleKey pressedKey, Coordinate? foodCoordinate = null)
+        public void Move(ConsoleKey pressedKey)
         {
+            pressedKey = Run(pressedKey);
+
             MoveTail();
 
             EraseHead();
@@ -39,15 +44,19 @@
             {
                 case ConsoleKey.LeftArrow:
                     MoveLeft();
+                    LastValidArrowKey = ConsoleKey.LeftArrow;
                     break;
                 case ConsoleKey.RightArrow:
                     MoveRight();
+                    LastValidArrowKey = ConsoleKey.RightArrow;
                     break;
                 case ConsoleKey.UpArrow:
                     MoveUp();
+                    LastValidArrowKey = ConsoleKey.UpArrow;
                     break;
                 case ConsoleKey.DownArrow:
                     MoveDown();
+                    LastValidArrowKey = ConsoleKey.DownArrow;
                     break;
             }
 
@@ -106,6 +115,14 @@
         {
             CurrentY++;
             Head = HeadDown;
+        }
+
+        private ConsoleKey Run(ConsoleKey pressedKey)
+        {
+            if (pressedKey == ConsoleKey.R)
+                return LastValidArrowKey;
+
+            return pressedKey;
         }
 
         private void EraseHead()
