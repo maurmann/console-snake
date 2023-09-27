@@ -52,7 +52,8 @@
 
         public bool Find(int x, int y)
         {
-            if (FoodCoordinate.X == x && FoodCoordinate.Y == y)
+            if (FoodCoordinate.X == x 
+                && FoodCoordinate.Y == y)
             {
                 FoodEaten = true;
             }

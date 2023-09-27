@@ -46,7 +46,8 @@
         private void ReadOption()
         {
             PressedKey = ReadKey();
-            while (PressedKey.Key != ConsoleKey.N && PressedKey.Key != ConsoleKey.Q)
+            while (PressedKey.Key != ConsoleKey.N 
+                && PressedKey.Key != ConsoleKey.Q)
             {
                 Console.Beep();
                 PressedKey = ReadKey();

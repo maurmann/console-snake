@@ -131,9 +131,9 @@
                 return true;
             else if (snake.MovingLeft && AreSnakeAndFoodSameLine(snake, food) && snake.CurrentX > food.FoodCoordinate.X)
                 return true;
-            else if (snake.MovingUp && AreSnakeAndFoodSameColumn(snake, food) && snake.CurrentY < food.FoodCoordinate.X)
+            else if (snake.MovingDown && AreSnakeAndFoodSameColumn(snake, food) && snake.CurrentY < food.FoodCoordinate.Y)
                 return true;
-            else if (snake.MovingDown && AreSnakeAndFoodSameColumn(snake, food) && snake.CurrentY > food.FoodCoordinate.X)
+            else if (snake.MovingUp && AreSnakeAndFoodSameColumn(snake, food) && snake.CurrentY > food.FoodCoordinate.Y)
                 return true;
 
             return false;

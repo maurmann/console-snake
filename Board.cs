@@ -6,7 +6,7 @@
         public const int TopMargin = 2;
 
         public const int Width = 60;
-        public const int Height = 12;
+        public const int Height = 15;
 
         public void Draw()
         {

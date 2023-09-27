@@ -6,7 +6,7 @@
         public const int topY = 1;
 
         public const int bottomX = 2;
-        public const int bottomY = 15;
+        public const int bottomY = 18;
 
         public void Write(string message, MessageLocation messageLocation = MessageLocation.Top)
         {
