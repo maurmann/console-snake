@@ -17,7 +17,7 @@
         public bool FoodEaten { get; set; }
         public Coordinate FoodCoordinate { get; set; }
 
-        public Coordinate? Harvest()
+        public Coordinate? Create()
         {
             if (!FoodEaten)
                 return null;

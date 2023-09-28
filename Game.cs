@@ -49,9 +49,9 @@
 
                     Thread.Sleep(delay);
 
-                    var foodCoordinate = food.Harvest();
+                    var foodCoordinate = food.Create();
                     while (snake.DetectConflict(foodCoordinate))
-                        foodCoordinate = food.Harvest();
+                        foodCoordinate = food.Create();
 
                     food.Draw();
 
