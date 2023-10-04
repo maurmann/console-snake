@@ -2,8 +2,7 @@
 {
     public class Snake
     {
-        public int CurrentX { get; private set; }
-        public int CurrentY { get; private set; }
+        public Coordinate Coordinate { get; set; }
 
         public bool MovingRight => Head == Snake.HeadRight;
         public bool MovingLeft => Head == Snake.HeadLeft;
@@ -15,7 +14,7 @@
         public const char HeadLeft = '<';
         public const char HeadRight = '>';
 
-        public const char Tail = '*';
+        public const char Tail = '0';
 
         public char Head { get; set; }
 
@@ -25,8 +24,7 @@
 
         public Snake()
         {
-            CurrentX = 4;
-            CurrentY = 6;
+            Coordinate = new Coordinate(4, 6);
             Head = HeadRight;
             TailNodes = new List<Coordinate>();
             LastValidArrowKey = ConsoleKey.RightArrow;
@@ -87,7 +85,7 @@
                 if (node.X == coordinate.X && node.Y == coordinate.Y)
                     return true;
 
-            if (CurrentX == coordinate.X && CurrentY == coordinate.Y)
+            if (Coordinate.X == coordinate.X && Coordinate.Y == coordinate.Y)
                 return true;
 
             return false;
@@ -95,25 +93,25 @@
 
         private void MoveLeft()
         {
-            CurrentX--;
+            Coordinate.X--;
             Head = HeadLeft;
         }
 
         private void MoveRight()
         {
-            CurrentX++;
+            Coordinate.X++;
             Head = HeadRight;
         }
 
         private void MoveUp()
         {
-            CurrentY--;
+            Coordinate.Y--;
             Head = HeadUp;
         }
 
         private void MoveDown()
         {
-            CurrentY++;
+            Coordinate.Y++;
             Head = HeadDown;
         }
 
@@ -130,13 +128,13 @@
             if (TailNodes.Any())
                 return;
 
-            Console.SetCursorPosition(CurrentX, CurrentY);
+            Console.SetCursorPosition(Coordinate.X, Coordinate.Y);
             Console.Write(" ");
         }
 
         private void DrawHead()
         {
-            Console.SetCursorPosition(CurrentX, CurrentY);
+            Console.SetCursorPosition(Coordinate.X, Coordinate.Y);
             Console.Write(Head);
         }
 
@@ -153,7 +151,7 @@
                 continue;
             }
 
-            TailNodes[0] = new Coordinate(CurrentX, CurrentY);
+            TailNodes[0] = new Coordinate(Coordinate.X, Coordinate.Y);
 
             DrawTail();
         }

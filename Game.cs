@@ -57,14 +57,14 @@
 
                     snake.Move(pressedKey);
 
-                    if (food.Find(snake.CurrentX, snake.CurrentY))
+                    if (food.Find(snake.Coordinate.X, snake.Coordinate.Y))
                     {
                         snake.Eat();
                         IncrementScore(food.GetFoodPoints());
                     }
 
-                    if (board.DetectHit(snake.CurrentX, snake.CurrentY)
-                        || snake.DetectHit(snake.CurrentX, snake.CurrentY))
+                    if (board.DetectHit(snake.Coordinate.X, snake.Coordinate.Y)
+                        || snake.DetectHit(snake.Coordinate.X, snake.Coordinate.Y))
                     {
                         colisionDetected = true;
                         break;
@@ -127,13 +127,13 @@
 
         private bool CanRunToFood(Snake snake, Food food)
         {
-            if (snake.MovingRight && AreSnakeAndFoodSameLine(snake, food) && snake.CurrentX < food.FoodCoordinate.X)
+            if (snake.MovingRight && AreSnakeAndFoodSameLine(snake, food) && snake.Coordinate.X < food.FoodCoordinate.X)
                 return true;
-            else if (snake.MovingLeft && AreSnakeAndFoodSameLine(snake, food) && snake.CurrentX > food.FoodCoordinate.X)
+            else if (snake.MovingLeft && AreSnakeAndFoodSameLine(snake, food) && snake.Coordinate.X > food.FoodCoordinate.X)
                 return true;
-            else if (snake.MovingDown && AreSnakeAndFoodSameColumn(snake, food) && snake.CurrentY < food.FoodCoordinate.Y)
+            else if (snake.MovingDown && AreSnakeAndFoodSameColumn(snake, food) && snake.Coordinate.Y < food.FoodCoordinate.Y)
                 return true;
-            else if (snake.MovingUp && AreSnakeAndFoodSameColumn(snake, food) && snake.CurrentY > food.FoodCoordinate.Y)
+            else if (snake.MovingUp && AreSnakeAndFoodSameColumn(snake, food) && snake.Coordinate.Y > food.FoodCoordinate.Y)
                 return true;
 
             return false;
@@ -141,12 +141,12 @@
 
         private bool AreSnakeAndFoodSameLine(Snake snake, Food food)
         {
-            return snake.CurrentY == food.FoodCoordinate.Y;
+            return snake.Coordinate.Y == food.FoodCoordinate.Y;
         }
 
         private bool AreSnakeAndFoodSameColumn(Snake snake, Food food)
         {
-            return snake.CurrentX == food.FoodCoordinate.X;
+            return snake.Coordinate.X == food.FoodCoordinate.X;
         }
     }
 }

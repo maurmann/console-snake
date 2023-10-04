@@ -2,7 +2,7 @@
 {
     public class Food
     {
-        private char[] FoodTypes => new char[3] { '$', '#', '@' };
+        private char[] FoodTypes => new char[3] { '$', '%', '@' };
 
         private int[] FoodPoints => new int[3] { 10, 50, 100 };
 
